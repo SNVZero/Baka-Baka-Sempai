@@ -15,51 +15,51 @@
               <img src="./img/company-1.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-2.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-3.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-4.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-5.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-6.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-7.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-8.png" alt="">
           </div>
       </div>
       <div class="partners__slider-2">
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-9.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-10.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-11.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-12.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-13.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-14.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-15.png" alt="">
           </div>
           <div class="slider__item">
-              <img src="./img/company-1.png" alt="">
+              <img src="./img/company-16.png" alt="">
           </div>
       </div>
     </div>
@@ -70,7 +70,7 @@ export default {
     
 }
 </script>
-<style >
+<style>
 
 .partners {
     overflow: hidden;
@@ -103,6 +103,7 @@ export default {
 
 .partners .slick-track {
     display: flex;
+    overflow: hidden;
 }
 
 .partners .partners__slider-1 {
@@ -125,13 +126,30 @@ export default {
     width: 192px;
     height: 100px;
 }
-.partners .slick-track{
 
-    overflow: hidden;
-}
 
 .slick-list{
     margin: 0px;
-    overflow: visible;
+    overflow: visible !important;
+}
+@media  (max-width: 767px){
+.slider__item img{
+        height: 74 px;
+        width: 129px;
+    }
+    .partners .slider__item{
+        overflow: hidden;
+        height: 100px;
+    }
+    .partners__title{
+        font-size: 24px;
+        margin: 0px;
+    }
+    .partners__descr{
+        font-size: 16px;
+        text-align: left;
+        padding: 0 15px 0 15px;
+        width: 100%;
+    }
 }
 </style>

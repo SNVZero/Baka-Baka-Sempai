@@ -3,10 +3,10 @@
               <div class="container">
                 <div class="ds">
                     <div class="ds__1">
-                        <img src="img/D-flying.png" alt="">
+                        <img src="./img/D-flying.svg" alt="">
                     </div>
                     <div class="ds__2">
-                        <img src="img/D-footer.svg" alt="">
+                        <img src="./img/D-footer.svg" alt="">
                     </div>
                 </div>
                 <div class="webform__main">
@@ -27,11 +27,11 @@
                                 </div>
                                 <div class="blockfromcontacts">
                                     <div class="webform__number" id="contacts">
-                                        <img src="img/phone.svg" alt="">
+                                        <img src="./img/phone.svg" alt="">
                                         <a id="phone"  href="tel:8800222-26-73">8 800 222-26-73</a>
                                     </div>
                                     <div class="webform__mail">
-                                        <img src="img/mail.svg" alt="">
+                                        <img src="./img/mail.svg" alt="">
                                         <a id="email" class="emaildesc" href="mailto:info@drupal-coder.ru">info@drupal-coder.ru</a>
                                     </div>
                                 </div>
@@ -41,27 +41,71 @@
                             <div class="webform__form">
                               <form class="ajaxForm" action="https://formcarry.com/s/y_1G4237Ix0" accept-charset="UTF-8" >
                                     <div>
-                                        <input class="webform__form-elem" id="name" type="text" name="name" required
-                                            placeholder="Ваше имя">
+                                        <input 
+                                            class="webform__form-elem"
+                                            :class="v$.form.name.$invalid ? 'is-invalid' : ''"
+                                            id="name"
+                                            type="text"
+                                            name="name"
+                                            @click=" validateForm()"
+                                            placeholder="Ваше имя"
+                                            v-model.trim="form.name"
+                                        >
+                                        <p v-if="v$.form.name.$error && v$.form.name.required.$invalid " class="invalid-feedback">Это поле обязательное для ввода
+                                        </p>
+                                        <p v-if="v$.form.name.$error &&  v$.form.name.alpha.$invalid " class="invalid-feedback">Пожалуйста введите имя латинскими символами
+                                        </p>
                                     </div>
+                                  
                                     <div>
-                                        <input class="webform__form-elem" id="phone" type="tel" name="phone" required
-                                            placeholder="Телефон">
+                                        <input 
+                                            class="webform__form-elem"
+                                            :class="v$.form.tel.$error ? 'is-invalid' : ''"
+                                            id="phone"
+                                            type="tel"
+                                            name="phone"
+                                            @click=" validateForm()"
+                                            v-model.trim="form.tel"
+                                            placeholder="Телефон"
+                                        >
+                                         <p v-if="v$.form.tel.$error && v$.form.tel.required.$invalid " class="invalid-feedback">Это поле обязательное для ввода
+                                        </p>
+                                        <p v-if="v$.form.tel.$error &&  v$.form.tel.numeric.$invalid " class="invalid-feedback">Для ввода используйте только цифры
+                                        </p>
                                         </div>
+                                       
                                         <div>
-                                            <input class="webform__form-elem" id="email" type="email" name="email" required
-                                                placeholder="E-mail">
+                                            <input
+                                                class="webform__form-elem"
+                                                :class="v$.form.email.$error ? 'is-invalid' : ''"
+                                                id="email" type="email"
+                                                name="email" 
+                                                placeholder="E-mail"
+                                                @click=" validateForm()"
+                                                v-model.trim="form.email"
+                                            >
+                                             <p v-if="v$.form.email.$error && v$.form.email.required.$invalid " class="invalid-feedback">Это поле обязательное для ввода
+                                        </p>
+                                        <p v-if="v$.form.email.$error &&  v$.form.email.email.$invalid " class="invalid-feedback">Неправильный формат почты
+                                        </p>
                                         </div>
+                                       
                                         <div>
                                             <input id="comment" class="webform__form-elem" type="text" name="name" placeholder="Ваш комментарий" />
                                         </div>
                                         <div class="form__checkbox">
-                                              <input class="checkbox__input" type="checkbox" id="userAgreement">
+                                              <input 
+                                                class="checkbox__input"
+                                                type="checkbox"
+                                                id="userAgreement"
+                                                v-model="form.agreeWithConditions"
+                                                @click=" validateForm()"
+                                                >
                                               <label class="checkbox__label" for="userAgreement">Отправляя заявку, я даю согласие на   <a>обработку своих персональных данных</a>.<span>*</span>   </label>
                                         </div>
 
                                         <div>
-                                            <input class="webform__form-btn" type="submit" value="ОСТАВИТЬ ЗАЯВКУ!">
+                                            <input class="webform__form-btn" :class="(v$.form.name.$invalid || v$.form.tel.$invalid || v$.form.email.$invalid || v$.form.agreeWithConditions.$invalid) ? 'is-invalid_form' : ''"  @click="submitForm"  type="submit" value="ОСТАВИТЬ ЗАЯВКУ!" v-bind:disabled="v$.form.name.$invalid || v$.form.tel.$invalid || v$.form.email.$invalid  || v$.form.agreeWithConditions.$invalid">
                                         </div>
                                     </form>
                             </div>
@@ -95,7 +139,7 @@
                       </li>
                       <li class="social-links-item">
                         <a href="https://zen.yandex.ru/id/6037ce072f500a068c630fec" target="_blank" rel="noopener noreferrer">
-                          <img src="img/zen-icon.svg" style="width: 16px; margin-bottom: 5px;">
+                          <img src="./img/zen-icon.svg" style="width: 16px; margin-bottom: 5px;">
                         </a>
                       </li>
 
@@ -110,6 +154,55 @@
           </div>
 
 </template>
+<script>
+
+import useValidate from "@vuelidate/core";
+import { required, email, alpha, numeric, minLength } from "@vuelidate/validators";
+export default {
+    data(){
+        return{
+            v$: useValidate(),
+            form:{   
+                name:'',
+                tel:'',
+                email:'',
+                agreeWithConditions: false,
+            },
+        }     
+  },
+validations() {
+    return {
+        form:{
+            name:{required,alpha},
+            tel:{required,numeric, minLength:minLength(5)},
+            email:{required,email},
+            agreeWithConditions : { 
+                mustBeTrue(value) {
+                return value
+                }
+
+            }
+        },
+    }
+},
+ methods:{
+     validateForm(){
+            if(!this.v$.form.name.required.$invalid &&!this.v$.form.tel.required.$invalid && !this.v$.form.email.required.$invalid  ){
+                this.v$.$validate()
+            }
+        },
+         submitForm() {
+                this.v$.$validate() // checks all inputs
+  				if (!this.v$.$error.form) { // if ANY fail validation
+  					alert('Ваша заявка подана на обработку')
+  				} else {
+  					alert('Ошибка в заполнении формы')
+  				}
+         }
+ }
+}
+</script>
+
 <style>
 
 .webform {
@@ -399,21 +492,8 @@ margin-top: 56px;
     transition: background 300ms;
 }
 
-.fa-facebook-f ::before{
-    content: "\f39e";
-}
 
-.fa-vk::before{
-    content: "\f189";
-}
 
-.fa-telegram-plane ::before{
-    content: "\f3fe";
-}
-
-.fa-youtube ::before{
-    content: "\f167";
-}
 
 .footer__text p {
     font-family: Montserrat;
@@ -429,5 +509,78 @@ margin-top: 56px;
     color: #FFFFFF;
 
     opacity: 0.5;
+}
+@media  (max-width: 767px){
+    
+
+
+    .webform .ds__1{
+        left: 20%;
+
+    }
+    .webform .ds__1 img{
+        width: 170px;
+        height: 170px;
+
+    }
+    .webform{
+        height: 100%;
+        margin-top: 20px;
+    }
+    .webform__info {
+        padding-left: 0px ;
+        text-align: justify;
+        padding-top: 30px;
+    }
+    .webform__info-descr span{
+        text-align: center;
+    }
+    .webform__info-descr p{
+        margin-bottom: 20px;
+
+    }
+    .webform__form{
+        padding: 30px 0 71px 0;
+
+
+    }
+    .webform__form-elem{
+        width: 100%;
+    }
+    .webform__form-btn {
+        width: 100%;
+    }
+    .ds__2{
+        display: none;
+    }
+    footer{
+        position: relative;
+        padding: 0;
+        margin-top: 5px;
+    }
+   footer .footer__text{
+        padding-left: 20px;
+    }
+  
+}
+
+@media (max-width: 600px){
+.webform__blockfromtitle{
+    font-size: 22px;
+    text-align: center;
+}
+
+.webform__blockfromdescription{
+    margin-bottom: 30px;
+}
+}@media (max-width: 600px){
+.webform__blockfromtitle{
+    font-size: 22px;
+    text-align: center;
+}
+
+.webform__blockfromdescription{
+    margin-bottom: 30px;
+}
 }
 </style>

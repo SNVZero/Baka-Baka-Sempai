@@ -246,4 +246,26 @@ export default {
     margin-top: 10px;
     margin-left: 20px;
 }
+@media  (max-width: 767px){
+ .faq .caption {
+        margin-bottom: 0;
+    }
+
+    ._container {
+        width: 100%;
+    }
+
+    .caption h2 {
+        font-size: 25px;
+    }
+
+    .faq .faq-field {
+        padding: 0 20px;
+    }
+
+    .faq .faq-field .faq__item {
+        padding: 10px 12px 10px 15px;
+    }
+}
+
 </style>

@@ -9,7 +9,7 @@
       <div class="reviews__slider">
         <div class="reviews__slider-item">
             <div class="reviews__logo">
-                <img src="img/farbors_ru.jpg">
+                <img src="./img/farbors_ru.jpg">
             </div>
             <div class="reviews__comment">
                 <p>
@@ -26,7 +26,7 @@
         </div>
         <div class="reviews__slider-item">
             <div class="reviews__logo">
-                <img src="img/nashagazeta_ch.png">
+                <img src="./img/nashagazeta_ch.png">
             </div>
             <div class="reviews__comment">
                 <p>
@@ -45,7 +45,7 @@
         </div>
         <div class="reviews__slider-item">
             <div class="reviews__logo">
-                <img src="img/logo-estee.png">
+                <img src="./img/logo-estee.png">
             </div>
             <div class="reviews__comment">
                 <p>
@@ -67,7 +67,7 @@
         </div>
         <div class="reviews__slider-item">
             <div class="reviews__logo">
-                <img src="img/cableman_ru.png">
+                <img src="./img/cableman_ru.png">
             </div>
             <div class="reviews__comment">
                 <p>Наша компания за несколько лет сменила несколько команд программистов и специалистов
@@ -86,7 +86,7 @@
         </div>
         <div class="reviews__slider-item">
             <div class="reviews__logo">
-                <img src="img/logo_2.png">
+                <img src="./img/logo_2.png">
             </div>
             <div class="reviews__comment">
                 <p>
@@ -107,7 +107,7 @@
         </div>
         <div class="reviews__slider-item">
             <div class="reviews__logo">
-                <img src="img/lpcma_rus_v4.jpg">
+                <img src="./img/lpcma_rus_v4.jpg">
             </div>
             <div class="reviews__comment">
                 <p>
@@ -137,7 +137,7 @@ export default {
     
 }
 </script>
-<style scoped>
+<style >
 .reviews {
     padding: 20px;
     width: 100%;
@@ -291,4 +291,52 @@ export default {
     border-radius: 5px;
 }
 
+@media  (max-width: 767px){
+ .reviews{
+        background: url('./img/right-quote-sign.svg') no-repeat left top;
+        background-size: 120px 100px;
+    }
+    .reviews__title{
+        font-size: 24px;
+        margin-bottom: 20px;
+        margin-top: 30px;
+    }
+    .reviews__wrapper{
+        width: 100%;
+        padding: 0;
+        display: block;
+    }
+    .reviews__wrapper::after{
+        left: 40px;
+        right: 40px;
+    }
+    .reviews__wrapper::before{
+        left: 20px;
+        right: 20px;
+    }
+    .reviews__slider{
+       width: 100%;
+        float: none;
+        border-bottom: 1px solid #cdcdcd;
+        display: block;
+        padding: 20px 15px;
+
+    }
+    .slick__arrows{
+        width: 100%;
+        float:none ;
+        padding: 20px 15px;
+
+    }
+    .reviews__comment{
+        width: 100%;
+    }
+    .reviews__person{
+        width: 100%;
+    }
+    .slick-arrows{
+        text-align: center;
+
+    }
+}
 </style>
