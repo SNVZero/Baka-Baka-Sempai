@@ -1,15 +1,15 @@
 <template>
-    <div class="modal" style="transform: scale(0.903333);" ref="popup_wraper" id="js-modals_request">
+    <div class="modal" ref="popup_wraper" id="js-modals_request">
         <div class="body__form">
-            <form class="ajaxForm" action="https://formcarry.com/s/y_1G4237Ix0" accept-charset="UTF-8" >    
-                <input 
-                    class="form__elem " 
+            <form class="ajaxForm" action="https://formcarry.com/s/y_1G4237Ix0" accept-charset="UTF-8" >
+                <input
+                    class="form__elem "
                     :class="v$.form.name.$invalid ? 'is-invalid' : ''"
-                    id="name" 
+                    id="name"
                     type="text"
                     name="name"
-                    required="" 
-                    placeholder="Ваше имя (Для ввода используйте латиницу)" 
+                    required=""
+                    placeholder="Ваше имя (Для ввода используйте латиницу)"
                     @click=" validateForm()"
                     v-model.trim="form.name"
                     >
@@ -17,14 +17,14 @@
                     </p>
                     <p v-if="v$.form.name.$error &&  v$.form.name.alpha.$invalid " class="invalid-feedback">Пожалуйста введите имя латинскими символами
                     </p>
-                     
-                <input 
-                    class="form__elem" 
+
+                <input
+                    class="form__elem"
                     :class="v$.form.tel.$error ? 'is-invalid' : ''"
-                    id="phone" 
-                    type="tel" 
-                    data-tel-input="true" 
-                    name="phone" required="" 
+                    id="phone"
+                    type="tel"
+                    data-tel-input="true"
+                    name="phone" required=""
                     placeholder="Телефон (Без региональных знаков)"
                     @click=" validateForm()"
                     v-model.trim="form.tel"
@@ -33,14 +33,14 @@
                 </p>
                 <p v-if="v$.form.tel.$error &&  v$.form.tel.numeric.$invalid " class="invalid-feedback">Для ввода используйте только цифры
                 </p>
-                <input 
-                    class="form__elem" 
+                <input
+                    class="form__elem"
                     :class="v$.form.email.$error ? 'is-invalid' : ''"
-                    id="email" 
+                    id="email"
                     type="email"
                     name="email"
-                    required="" 
-                    placeholder="E-mail" 
+                    required=""
+                    placeholder="E-mail"
                     @click=" validateForm()"
                     v-model.trim="form.email"
                 >
@@ -51,64 +51,44 @@
 
                 <textarea name="" class="comment" cols="30" rows="10" type="text" placeholder="Ваш комментарий (Не обязательно)"></textarea>
                     <div class="form__checkbox">
-                        <input 
-                            class="checkbox__input" 
+                        <input
+                            class="checkbox__input"
                             type="checkbox"
                             id="userAgreement"
                             v-model="form.agreeWithConditions"
                             @click=" validateForm()"
                         >
                         <label
-                          class="checkbox__label" 
+                          class="checkbox__label"
                           for="userAgreement"
-                          >Отправляя заявку, я даю согласие на   
+                          >Отправляя заявку, я даю согласие на
                           <a>обработку своих персональных данных</a>
                           .<span>*</span>  </label>
                     </div>
-             
+
                     <input  class="webform__form-btn" :class="(v$.form.name.$invalid || v$.form.tel.$invalid || v$.form.email.$invalid || v$.form.agreeWithConditions.$invalid) ? 'is-invalid_form' : ''"  @click="submitForm" type="submit" value="ОСТАВИТЬ ЗАЯВКУ!" v-bind:disabled="v$.form.name.$invalid || v$.form.tel.$invalid || v$.form.email.$invalid  || v$.form.agreeWithConditions.$invalid" >
-               
+
             </form>
         </div>
      </div>
 </template>
 <script>
-      $(function(){
-		$(".ajaxForm").submit(function(e){
-			e.preventDefault();
-			var href = $(this).attr("action");
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: href,
-				data: $(this).serialize(),
-				success: function(response){
-					if((response.status == "success")&&(checkbox.classList.contains('checked'))){
-						alert("Ваша заявка оформлена");
-					}else if(!checkbox.classList.contains('checked')){
-						alert('Вы не подтвердили согласине на обработку, подтвердите и попробуйте попытку позже')
-					}
-					else {
-						alert("Произошла ошибка при отправке формы, повторите попытку позже " + response.message);
-					}
-				}
-			});
-		});
-	});
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import useValidate from "@vuelidate/core";
 import { required, email, alpha, numeric, minLength } from "@vuelidate/validators";
 export default {
     data(){
         return{
             v$: useValidate(),
-            form:{   
+            form:{
                 name:'',
                 tel:'',
                 email:'',
                 agreeWithConditions: false,
             },
-        }     
+        }
   },
 validations() {
     return {
@@ -116,7 +96,7 @@ validations() {
             name:{required,alpha},
             tel:{required,numeric, minLength:minLength(5)},
             email:{required,email},
-            agreeWithConditions : { 
+            agreeWithConditions : {
                 mustBeTrue(value) {
                 return value
                 }
@@ -127,28 +107,49 @@ validations() {
 },
 
     setup() {
-        
+
     },
     methods:{
         closePopup(){
             this.$emit('closePopup')
+
         },
         validateForm(){
             if(!this.v$.form.name.required.$invalid &&!this.v$.form.tel.required.$invalid && !this.v$.form.email.required.$invalid  ){
                 this.v$.$validate()
             }
         },
-         submitForm() {
+        submitForm() {
                 this.v$.$validate() // checks all inputs
   				if (!this.v$.$error.form) { // if ANY fail validation
   					alert('Ваша заявка подана на обработку')
   				} else {
   					alert('Ошибка в заполнении формы')
   				}
-    },
-    
+        },
     },
     mounted(){
+        $(function(){
+		$(".ajaxForm").submit(function(e){
+			e.preventDefault();
+			var href = $(this).attr("action");
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: href,
+				data: $(this).serialize(),
+				success: function(response){
+					if(response.status == "success"){
+						alert("Ваша заявка оформлена");
+                    }
+					else {
+						alert("Произошла ошибка при отправке формы, повторите попытку позже " + response.message);
+					}
+				}
+			});
+		});
+	});
+
         let vm = this;
         document.addEventListener('click', function(item){
             if(item.target===vm.$refs['popup_wraper']){
@@ -169,8 +170,7 @@ validations() {
     height: 100vh;
     width: 100vw;
     position: fixed;
-    display: -webkit-box;
-    display: -ms-flexbox;
+
     display: flex;
     -webkit-box-pack: center;
     -ms-flex-pack: center;

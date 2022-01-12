@@ -7,8 +7,7 @@
                 </div>
                 <br>
                 <vPopup
-                v-if="isInfoPopupVisable"
-                @closePopup="closeInfoPopup"/>
+                @closePopup="ClosePopap()"/>
                 <div class="row">
                     <div class="col-12 col-lg-4 t1">
                         <div class = "tarif1">
@@ -22,7 +21,7 @@
                             </ul>
                             <div class="col-12 text-center">
                               <button class="contact-button"
-                                @click="showPopupInfo"
+                                 @click="ShowModal()"
                                 >
                                     СВЯЖИТЕСЬ С НАМИ!
                                 </button>
@@ -43,7 +42,7 @@
                             </ul>
                             <div class="col-12 text-center">
                                 <button class="contact-button"
-                                @click="showPopupInfo"
+                                 @click="ShowModal()"
                                 >
                                     СВЯЖИТЕСЬ С НАМИ!
                                 </button>
@@ -64,7 +63,7 @@
                             </ul>
                             <div class="col-12 text-center">
                                 <button class="contact-button"
-                                @click="showPopupInfo"
+                                 @click="ShowModal()"
                                 >
                                     СВЯЖИТЕСЬ С НАМИ!
                                 </button>
@@ -100,8 +99,23 @@ export default {
         },
         closeInfoPopup(){
             this.isInfoPopupVisable=false;
+        },
+
+        ShowModal(){
+            let start = Date.now();
+            let modal = document.querySelector(".modal");
+            let timer = requestAnimationFrame(function animateModal(timestamp) {
+            let interval = Date.now() - start;
+            modal.style.transform = "scale(" + (interval / 300 - 0.1) + ")";
+            if (interval < 300)
+            requestAnimationFrame(animateModal);
+            });
+        },
+        ClosePopap(){
+            let modal = document.querySelector('.modal');
+            modal.style.transform ="scale(" +(0) +")";
         }
-    }
+    },
 }
 </script>
 
